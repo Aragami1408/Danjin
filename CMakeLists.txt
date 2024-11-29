@@ -20,7 +20,6 @@ include_directories(src)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED
@@ -39,8 +38,6 @@ target_link_libraries(${PROJECT_NAME}
 		OpenGL::GL
 		GLEW::GLEW
 	PRIVATE
-		spdlog::spdlog
-		spdlog::spdlog_header_only
 		glm::glm
 )
 
