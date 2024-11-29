@@ -2,10 +2,10 @@
 
 class Sandbox : public Danjin::Application {
 public:
-  Sandbox() {}
-  ~Sandbox() {}
+	Sandbox() {}
+	~Sandbox() {}
 };
 
 Danjin::Application *Danjin::createApplication() {
-  return new Sandbox();
+	return new Sandbox();
 }

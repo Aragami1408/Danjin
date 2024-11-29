@@ -8,6 +8,6 @@ Application::~Application() {
 }
 
 void Application::run() {
-  while(true);
+	while(true);
 }
 }

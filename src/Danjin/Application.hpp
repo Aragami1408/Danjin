@@ -1,16 +1,15 @@
 #pragma once
 
-#include <Danjin/common.h>
+#include <Danjin/Common.h>
 
 namespace Danjin {
 class DANJIN_API Application {
-public:
-    Application();
-    virtual ~Application();
+	public:
+		Application();
+		virtual ~Application();
 
-    void run();
+		void run();
 };
 
-// TODO(higanbana): To be defined in CLIENT
 Application *createApplication();
 }

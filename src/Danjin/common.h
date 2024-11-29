@@ -15,12 +15,12 @@ typedef uint64_t u64;
 typedef size_t usize;
 
 #ifdef DANJIN_PLATFORM_WINDOWS
-    #ifdef DANJIN_BUILD_DLL
-      #define DANJIN_API __declspec(dllexport)
-    #else
-      #define DANJIN_API __declspec(dllimport)
-    #endif
+	#ifdef DANJIN_BUILD_DLL
+		#define DANJIN_API __declspec(dllexport)
+	#else
+		#define DANJIN_API __declspec(dllimport)
+	#endif
 #else
-    #error Danjin only support Windows for now
+	#error Danjin only support Windows for now
 #endif
 

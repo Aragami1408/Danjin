@@ -16,6 +16,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 include_directories(src)
+include_directories(submodules/spdlog/include)
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -23,7 +24,8 @@ find_package(GLEW REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED
-  src/Danjin/Application.cpp
+	src/Danjin/Application.cpp
+	src/Danjin/Logger.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
