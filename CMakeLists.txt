@@ -1,0 +1,50 @@
+cmake_minimum_required(VERSION 3.15)
+project(Danjin VERSION 1.0.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(WIN32)
+  add_compile_definitions(DANJIN_PLATFORM_WINDOWS)
+  add_compile_definitions(DANJIN_BUILD_DLL)
+endif(WIN32)
+
+option(BUILD_EXAMPLES "Build examples" OFF)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+include_directories(src)
+
+find_package(SDL2 CONFIG REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
+
+add_library(${PROJECT_NAME} SHARED
+  src/Danjin/Application.cpp
+)
+
+target_include_directories(${PROJECT_NAME}
+	PRIVATE
+		${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(${PROJECT_NAME}
+	PUBLIC
+		SDL2::SDL2
+		SDL2::SDL2main
+		OpenGL::GL
+		GLEW::GLEW
+	PRIVATE
+		spdlog::spdlog
+		spdlog::spdlog_header_only
+		glm::glm
+)
+
+if(BUILD_EXAMPLES)
+	add_subdirectory(examples)
+endif()
+
