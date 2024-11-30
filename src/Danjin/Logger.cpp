@@ -1,3 +1,4 @@
+#include <pch.h>
 #include <Danjin/Logger.hpp>
 
 namespace Danjin {
