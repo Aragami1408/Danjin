@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(WIN32)
-  add_compile_definitions(DANJIN_PLATFORM_WINDOWS)
-  add_compile_definitions(DANJIN_BUILD_DLL)
+	add_compile_definitions(DANJIN_PLATFORM_WINDOWS)
+	add_compile_definitions(DANJIN_BUILD_DLL)
 endif(WIN32)
 
 option(BUILD_EXAMPLES "Build examples" OFF)
@@ -26,6 +26,7 @@ find_package(glm CONFIG REQUIRED)
 add_library(${PROJECT_NAME} SHARED
 	src/Danjin/Application.cpp
 	src/Danjin/Logger.cpp
+	src/Danjin/Platform/Windows/WindowsWindow.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

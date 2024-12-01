@@ -24,3 +24,10 @@ typedef size_t usize;
 	#error Danjin only support Windows for now
 #endif
 
+#ifdef DANJIN_ENABLE_ASSERTS
+	#define DANJIN_ASSERT(x, ...) { if(!(x)) { DANJIN_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define DANJIN_CORE_ASSERT(x, ...) { if(!(x)) { DANJIN_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define DANJIN_ASSERT(x, ...)
+	#define DANJIN_CORE_ASSERT(x, ...)
+#endif
