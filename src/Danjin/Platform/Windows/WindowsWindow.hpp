@@ -7,6 +7,8 @@
 namespace Danjin {
 class WindowsWindow : public Window {
 public:
+	using WindowResizeCallbackFn = std::function<void(SDL_Window*, u32, u32)>;
+
 	WindowsWindow(const WindowProps &props);
 	virtual ~WindowsWindow();
 
@@ -16,6 +18,7 @@ public:
 	inline u32 getHeight() const override { return m_data.height; }
 
 	inline const void *getEvent() const override { return &m_event; }
+	inline const void *getNativeWindow() const override { return m_window; }
 
 	// Window attributes
 	inline void setEventCallback(const EventCallbackFn &callback) override {
@@ -27,10 +30,11 @@ public:
 private:
 	virtual void init(const WindowProps &props);
 	virtual void shutdown();
+	void processEvents();
 
 private:
 	SDL_Window *m_window;
-	SDL_GLContext m_context;
+	SDL_GLContext m_glContext;
 	SDL_Event m_event;
 
 	struct WindowData {

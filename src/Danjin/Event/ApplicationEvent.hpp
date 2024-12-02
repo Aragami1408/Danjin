@@ -5,7 +5,7 @@
 #include <sstream>
 
 namespace Danjin {
-class DANJIN_API WindowResizeEvent : public Event {
+class WindowResizeEvent : public Event {
 public:
 	WindowResizeEvent(u32 width, u32 height) : m_width(width), m_height(height) {}
 
@@ -25,7 +25,7 @@ private:
 	u32 m_width, m_height;
 };
 
-class DANJIN_API WindowCloseEvent : public Event {
+class WindowCloseEvent : public Event {
 public:
 	WindowCloseEvent() = default;
 
@@ -33,7 +33,7 @@ public:
 	EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
 
-class DANJIN_API AppTickEvent : public Event {
+class AppTickEvent : public Event {
 public:
 	AppTickEvent() = default;
 
@@ -41,7 +41,7 @@ public:
 	EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
 
-class DANJIN_API AppUpdateEvent : public Event {
+class AppUpdateEvent : public Event {
 public:
 	AppUpdateEvent() = default;
 
@@ -49,7 +49,7 @@ public:
 	EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
 
-class DANJIN_API AppRenderEvent : public Event {
+class AppRenderEvent : public Event {
 public:
 	AppRenderEvent() = default;
 

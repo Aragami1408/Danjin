@@ -1,31 +1,28 @@
 #pragma once
 
+#include <pch.h>
+
 #include <Danjin/Event/Event.hpp>
 
 #include <sstream>
 
 namespace Danjin {
 
-enum MouseCode {
-	ButtonLeft,
-	ButtonMiddle,
-	ButtonRight
-};
-
 class MouseButtonEvent : public Event {
 public:
-	MouseCode getMouseButton() const { return m_button; }
+	u8 getMouseButton() const { return m_button; }
 
 	EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
 protected:
-	MouseButtonEvent(const MouseCode button)
+	MouseButtonEvent(u8 button)
 		: m_button(button) {}
-	MouseCode m_button;
+
+	u8 m_button;
 };
 
-class DANJIN_API MouseButtonPressedEvent : public MouseButtonEvent {
+class MouseButtonPressedEvent : public MouseButtonEvent {
 public:
-	MouseButtonPressedEvent(const MouseCode button)
+	MouseButtonPressedEvent(u8 button)
 		: MouseButtonEvent(button) {}
 
 	std::string toString() const override {
@@ -37,9 +34,9 @@ public:
 	EVENT_CLASS_TYPE(MouseButtonPressed);
 };
 
-class DANJIN_API MouseButtonReleasedEvent : public MouseButtonEvent {
+class MouseButtonReleasedEvent : public MouseButtonEvent {
 public:
-	MouseButtonReleasedEvent(const MouseCode button)
+	MouseButtonReleasedEvent(u8 button)
 		: MouseButtonEvent(button) {}
 
 	std::string toString() const override {
@@ -51,7 +48,7 @@ public:
 	EVENT_CLASS_TYPE(MouseButtonReleased);
 };
 
-class DANJIN_API MouseMovedEvent : public Event {
+class MouseMovedEvent : public Event {
 public:
 	MouseMovedEvent(float x, float y) : m_mouseX(x), m_mouseY(y) {}
 
@@ -70,7 +67,7 @@ private:
 	float m_mouseX, m_mouseY;
 };
 
-class DANJIN_API MouseScrolledEvent : public Event {
+class MouseScrolledEvent : public Event {
 public:
 	MouseScrolledEvent(const float xOffset, const float yOffset)
 		: m_xOffset(xOffset), m_yOffset(yOffset) {}
@@ -90,6 +87,5 @@ public:
 private:
 	float m_xOffset, m_yOffset;
 };
-
 
 }

@@ -3,7 +3,7 @@
 #include <Danjin/Event/Event.hpp>
 
 namespace Danjin {
-class DANJIN_API KeyEvent : public Event {
+class KeyEvent : public Event {
 public:
 	inline u32 getKeyCode() const { return m_keycode; }
 
@@ -15,9 +15,9 @@ protected:
 	u32 m_keycode;
 };
 
-class DANJIN_API KeyPressedEvent : public KeyEvent {
+class KeyPressedEvent : public KeyEvent {
 public:
-	KeyPressedEvent(u32 keycode, usize repeatCount) : KeyEvent(keycode), m_repeatCount(repeatCount) {}
+	KeyPressedEvent(u32 keycode, u8 repeatCount) : KeyEvent(keycode), m_repeatCount(repeatCount) {}
 
 	inline int getRepeatCount() const { return m_repeatCount; }
 	
@@ -30,10 +30,10 @@ public:
 	EVENT_CLASS_TYPE(KeyPressed)
 
 protected:
-	usize m_repeatCount;
+	u8 m_repeatCount;
 };
 
-class DANJIN_API KeyReleasedEvent : public KeyEvent {
+class KeyReleasedEvent : public KeyEvent {
 	KeyReleasedEvent(u32 keycode) : KeyEvent(keycode) {}
 
 	std::string toString() const override {

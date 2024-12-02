@@ -1,8 +1,17 @@
 #include <pch.h>
 #include "WindowsWindow.hpp"
 
+#include <Danjin/Event/ApplicationEvent.hpp>
+#include <Danjin/Event/MouseEvent.hpp>
+#include <Danjin/Event/KeyEvent.hpp>
+#include <Danjin/Event/Event.hpp>
+
 namespace Danjin {
 static bool s_SDLInitialized = false;
+
+void setWindowSizeCallback(SDL_Window *window, WindowResizeCallbackFn callback) {
+	SDL_SetWindowData(window, "ResizeCallback", callback);
+}
 
 Window *Window::create(const WindowProps &props) {
 	return new WindowsWindow(props);
@@ -20,16 +29,15 @@ WindowsWindow::~WindowsWindow() {
 }
 
 void WindowsWindow::onUpdate() {
-	if (SDL_PollEvent(NULL) == 1)
-		SDL_PollEvent(&m_event);
+	processEvents();
 	SDL_GL_SwapWindow(m_window);
 }
 
 void WindowsWindow::setVSync(bool enabled) {
 	if (enabled)
-		SDL_GL_SetSwapInterval(1);
+		SDL_GL_SetSwapu32erval(1);
 	else
-		SDL_GL_SetSwapInterval(0);
+		SDL_GL_SetSwapu32erval(0);
 
 	m_data.vSync = enabled;
 }
@@ -47,7 +55,7 @@ void WindowsWindow::init(const WindowProps &props) {
 	DANJIN_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
 	if (!s_SDLInitialized) {
-		int success = SDL_Init(SDL_INIT_VIDEO);
+		u32 success = SDL_Init(SDL_INIT_VIDEO);
 		DANJIN_CORE_ASSERT(success, "Could not initialize SDL2");
 
 		s_SDLInitialized = true;
@@ -63,22 +71,87 @@ void WindowsWindow::init(const WindowProps &props) {
 		props.title.c_str(),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		(int)props.width,
-		(int)props.height,
+		(u32)props.width,
+		(u32)props.height,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 	DANJIN_CORE_ASSERT(m_window, "Could not initialize SDL_Window");
 
-	m_context = SDL_GL_CreateContext(m_window);
-	DANJIN_CORE_ASSERT(m_context, "Could not initialize SDL_GL_Context");
-
-	SDL_SetWindowData(m_window, "WindowData", &m_data);
+	m_glContext = SDL_GL_CreateContext(m_window);
+	DANJIN_CORE_ASSERT(m_glContext, "Could not initialize SDL_GL_Context");
 	setVSync(true);
+
 }
 
 void WindowsWindow::shutdown() {
+	SDL_GL_DeleteContext(m_glContext);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }
 
+void WindowsWindow::processEvents() {
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_WINDOWEVENT: {
+				if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+					i32 newWidth = event.window.data1;
+					i32 newHeight = event.window.data2;
+					WindowResizeEvent e(newWidth, newHeight);
+					m_data.width = newWidth;
+					m_data.height = newHeight;
+					m_data.eventCallback(e);
+					break;
+				}
+				else if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
+					WindowCloseEvent e();
+					m_data.eventCallback(e);
+				}
+				break;
+			}
+			case SDL_KEYDOWN: {
+				u8 repeatCount = event.key.repeat;
+				u32 keycode = event.key.keysym.sym;
+				KeyPressedEvent e(keycode, repeatCount);
+				m_data.eventCallback(e);
+				break;
+			}
+			case SDL_KEYUP: {
+				u32 keycode = event.key.keysym.sym;
+				KeyReleasedEvent e(keycode, repeatCount);
+				m_data.eventCallback(e);
+				break;
+			}
+			case SDL_MOUSEMOTION: {
+				float x = static_cast<float>(event.motion.x);
+				float y = static_cast<float>(event.motion.y);
+				MouseMotionEvent e(x, y);
+				m_data.eventCallback(e);
+				break;
+			}
+			case SDL_MOUSEWHEEL: {
+				float x = event.wheel.preciseX;
+				float y = event.wheel.preciseY;
+				MouseScrolledEvent e(x, y);
+				m_data.eventCallback(e);
+				break;
+			}
+			case SDL_MOUSEBUTTONDOWN: {
+				MouseButtonPressedEvent e(event.button.button);
+				m_data.eventCallback(e);
+				break;
+			}
+			case SDL_MOUSEBUTTONUP: {
+				MouseButtonReleasedEvent e(event.button.button);
+				m_data.eventCallback(e);
+				break;
+			}
+			case SDL_QUIT: {
+				WindowCloseEvent e();
+				m_data.eventCallback(e);
+				break;
+			}
+		}
+	}
+}
 
 }
