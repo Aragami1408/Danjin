@@ -10,19 +10,19 @@ namespace Danjin {
 
 class MouseButtonEvent : public Event {
 public:
-	u8 getMouseButton() const { return m_button; }
+	usize getMouseButton() const { return m_button; }
 
 	EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
 protected:
-	MouseButtonEvent(u8 button)
+	MouseButtonEvent(usize button)
 		: m_button(button) {}
 
-	u8 m_button;
+	usize m_button;
 };
 
 class MouseButtonPressedEvent : public MouseButtonEvent {
 public:
-	MouseButtonPressedEvent(u8 button)
+	MouseButtonPressedEvent(usize button)
 		: MouseButtonEvent(button) {}
 
 	std::string toString() const override {
@@ -36,7 +36,7 @@ public:
 
 class MouseButtonReleasedEvent : public MouseButtonEvent {
 public:
-	MouseButtonReleasedEvent(u8 button)
+	MouseButtonReleasedEvent(usize button)
 		: MouseButtonEvent(button) {}
 
 	std::string toString() const override {

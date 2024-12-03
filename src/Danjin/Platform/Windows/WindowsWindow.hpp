@@ -15,7 +15,6 @@ public:
 	inline u32 getWidth() const override { return m_data.width; }
 	inline u32 getHeight() const override { return m_data.height; }
 
-	inline const void *getEvent() const override { return &m_event; }
 	inline const void *getNativeWindow() const override { return m_window; }
 
 	// Window attributes

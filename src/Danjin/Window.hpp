@@ -27,7 +27,6 @@ public:
 	virtual u32 getWidth() const = 0;
 	virtual u32 getHeight() const = 0;
 
-	virtual const void *getEvent() const = 0;
 	virtual const void *getNativeWindow() const = 0;
 
 	virtual void setEventCallback(const EventCallbackFn &callback) = 0;

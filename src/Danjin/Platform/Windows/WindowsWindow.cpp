@@ -105,9 +105,9 @@ void WindowsWindow::processEvents() {
 				break;
 			}
 			case SDL_KEYDOWN: {
-				u8 repeatCount = event.key.repeat;
+				u8 repeat = event.key.repeat;
 				u32 keycode = event.key.keysym.sym;
-				KeyPressedEvent e(keycode, repeatCount);
+				KeyPressedEvent e(keycode, (usize) repeat);
 				m_data.eventCallback(e);
 				break;
 			}

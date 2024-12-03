@@ -17,7 +17,7 @@ protected:
 
 class KeyPressedEvent : public KeyEvent {
 public:
-	KeyPressedEvent(u32 keycode, u8 repeatCount) : KeyEvent(keycode), m_repeatCount(repeatCount) {}
+	KeyPressedEvent(u32 keycode, usize repeatCount) : KeyEvent(keycode), m_repeatCount(repeatCount) {}
 
 	inline int getRepeatCount() const { return m_repeatCount; }
 	
@@ -30,7 +30,7 @@ public:
 	EVENT_CLASS_TYPE(KeyPressed)
 
 protected:
-	u8 m_repeatCount;
+	usize m_repeatCount;
 };
 
 class KeyReleasedEvent : public KeyEvent {

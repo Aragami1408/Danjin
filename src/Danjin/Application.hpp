@@ -2,6 +2,7 @@
 
 #include <Danjin/Common.h>
 #include <Danjin/Event/Event.hpp>
+#include <Danjin/Event/ApplicationEvent.hpp>
 #include <Danjin/Window.hpp>
 
 namespace Danjin {
@@ -14,6 +15,8 @@ public:
 
 	void onEvent(Event &e);
 private:
+	bool onWindowClose(WindowCloseEvent &e);
+
 	std::unique_ptr<Window> m_window;
 	bool m_running = true;
 };
