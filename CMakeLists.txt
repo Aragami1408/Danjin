@@ -29,6 +29,11 @@ add_library(${PROJECT_NAME} SHARED
 	src/Danjin/Platform/Windows/WindowsWindow.cpp
 )
 
+target_compile_definitions(${PROJECT_NAME}
+	PRIVATE
+		"$<$<CONFIG:Debug>:DANJIN_ENABLE_ASSERTS"
+)
+
 target_include_directories(${PROJECT_NAME}
 	PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/src

@@ -9,4 +9,4 @@ function(add_example EXAMPLE_NAME)
     #file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 endfunction()
 
-add_example(TestApplication ExampleApp.cpp)
+add_example(Danjin ExampleApp.cpp)
