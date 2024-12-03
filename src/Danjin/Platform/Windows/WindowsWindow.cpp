@@ -9,10 +9,6 @@
 namespace Danjin {
 static bool s_SDLInitialized = false;
 
-void setWindowSizeCallback(SDL_Window *window, WindowResizeCallbackFn callback) {
-	SDL_SetWindowData(window, "ResizeCallback", callback);
-}
-
 Window *Window::create(const WindowProps &props) {
 	return new WindowsWindow(props);
 }
@@ -35,9 +31,9 @@ void WindowsWindow::onUpdate() {
 
 void WindowsWindow::setVSync(bool enabled) {
 	if (enabled)
-		SDL_GL_SetSwapu32erval(1);
+		SDL_GL_SetSwapInterval(1);
 	else
-		SDL_GL_SetSwapu32erval(0);
+		SDL_GL_SetSwapInterval(0);
 
 	m_data.vSync = enabled;
 }
@@ -103,7 +99,7 @@ void WindowsWindow::processEvents() {
 					break;
 				}
 				else if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
-					WindowCloseEvent e();
+					WindowCloseEvent e;
 					m_data.eventCallback(e);
 				}
 				break;
@@ -117,14 +113,14 @@ void WindowsWindow::processEvents() {
 			}
 			case SDL_KEYUP: {
 				u32 keycode = event.key.keysym.sym;
-				KeyReleasedEvent e(keycode, repeatCount);
+				KeyReleasedEvent e(keycode);
 				m_data.eventCallback(e);
 				break;
 			}
 			case SDL_MOUSEMOTION: {
 				float x = static_cast<float>(event.motion.x);
 				float y = static_cast<float>(event.motion.y);
-				MouseMotionEvent e(x, y);
+				MouseMovedEvent e(x, y);
 				m_data.eventCallback(e);
 				break;
 			}
@@ -146,7 +142,7 @@ void WindowsWindow::processEvents() {
 				break;
 			}
 			case SDL_QUIT: {
-				WindowCloseEvent e();
+				WindowCloseEvent e;
 				m_data.eventCallback(e);
 				break;
 			}

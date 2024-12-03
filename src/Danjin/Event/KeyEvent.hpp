@@ -34,6 +34,7 @@ protected:
 };
 
 class KeyReleasedEvent : public KeyEvent {
+public:
 	KeyReleasedEvent(u32 keycode) : KeyEvent(keycode) {}
 
 	std::string toString() const override {

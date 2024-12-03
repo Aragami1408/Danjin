@@ -7,8 +7,6 @@
 namespace Danjin {
 class WindowsWindow : public Window {
 public:
-	using WindowResizeCallbackFn = std::function<void(SDL_Window*, u32, u32)>;
-
 	WindowsWindow(const WindowProps &props);
 	virtual ~WindowsWindow();
 
