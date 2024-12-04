@@ -6,6 +6,8 @@
 #include <Danjin/Event/KeyEvent.hpp>
 #include <Danjin/Event/Event.hpp>
 
+#include <glad/glad.h>
+
 namespace Danjin {
 static bool s_SDLInitialized = false;
 
@@ -57,8 +59,8 @@ void WindowsWindow::init(const WindowProps &props) {
 		s_SDLInitialized = true;
 	}
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -75,6 +77,8 @@ void WindowsWindow::init(const WindowProps &props) {
 	m_glContext = SDL_GL_CreateContext(m_window);
 	DANJIN_CORE_ASSERT(m_glContext, "Could not initialize SDL_GL_Context");
 	setVSync(true);
+
+	gladLoadGLLoader(SDL_GL_GetProcAddress);
 
 }
 

@@ -7,6 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(WIN32)
 	add_compile_definitions(DANJIN_PLATFORM_WINDOWS)
 	add_compile_definitions(DANJIN_BUILD_DLL)
+	if (MSVC)
+		set(CMAKE_CXX_FLAGS_DEBUG_INIT "/DDANJIN_ENABLE_ASSERTS")
+	else()
+		set(CMAKE_CXX_FLAGS_DEBUG_INIT "-DDANJIN_ENABLE_ASSERTS")
+	endif(MSVC)
 endif(WIN32)
 
 option(BUILD_EXAMPLES "Build examples" OFF)
@@ -16,22 +21,30 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 include_directories(src)
+include_directories(submodules)
 include_directories(submodules/spdlog/include)
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED
 	src/Danjin/Application.cpp
+	src/Danjin/Layer.cpp
+	src/Danjin/LayerStack.cpp
 	src/Danjin/Logger.cpp
 	src/Danjin/Platform/Windows/WindowsWindow.cpp
-)
 
-target_compile_definitions(${PROJECT_NAME}
-	PRIVATE
-		"$<$<CONFIG:Debug>:DANJIN_ENABLE_ASSERTS"
+	submodules/glad/glad.c
+
+	submodules/imgui/imgui.cpp
+	submodules/imgui/imgui_demo.cpp
+	submodules/imgui/imgui_draw.cpp
+	submodules/imgui/imgui_tables.cpp
+	submodules/imgui/imgui_widgets.cpp
+
+	submodules/imgui/imgui_impl_sdl2.cpp
+	submodules/imgui/imgui_impl_opengl3.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -39,14 +52,14 @@ target_include_directories(${PROJECT_NAME}
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
+# FUCK YOU MSVC
+# target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
 
 target_link_libraries(${PROJECT_NAME}
 	PUBLIC
 		SDL2::SDL2
 		SDL2::SDL2main
 		OpenGL::GL
-		GLEW::GLEW
 	PRIVATE
 		glm::glm
 )
