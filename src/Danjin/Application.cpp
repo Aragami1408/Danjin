@@ -4,7 +4,8 @@
 #include <Danjin/Logger.hpp>
 
 #include <SDL2/SDL.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
+
 namespace Danjin {
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -18,7 +19,7 @@ Application::~Application() {
 
 void Application::run() {
 	while(m_running) {
-		glClearColor(0, 0, 0, 1);
+		glClearColor(1.0f, 0, 1.0f, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 		for (Layer *layer : m_layerStack)
 			layer->onUpdate();

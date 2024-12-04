@@ -2,6 +2,12 @@
 
 #include <Danjin/Window.hpp>
 
+#include <Danjin/Event/ApplicationEvent.hpp>
+#include <Danjin/Event/MouseEvent.hpp>
+#include <Danjin/Event/KeyEvent.hpp>
+#include <Danjin/Event/Event.hpp>
+
+#include <glad/glad.h>
 #include <SDL2/SDL.h>
 
 namespace Danjin {

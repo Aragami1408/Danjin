@@ -1,13 +1,6 @@
 #include <pch.h>
 #include "WindowsWindow.hpp"
 
-#include <Danjin/Event/ApplicationEvent.hpp>
-#include <Danjin/Event/MouseEvent.hpp>
-#include <Danjin/Event/KeyEvent.hpp>
-#include <Danjin/Event/Event.hpp>
-
-#include <glad/glad.h>
-
 namespace Danjin {
 static bool s_SDLInitialized = false;
 
@@ -76,9 +69,11 @@ void WindowsWindow::init(const WindowProps &props) {
 
 	m_glContext = SDL_GL_CreateContext(m_window);
 	DANJIN_CORE_ASSERT(m_glContext, "Could not initialize SDL_GL_Context");
-	setVSync(true);
 
-	gladLoadGLLoader(SDL_GL_GetProcAddress);
+	int status = gladLoadGLLoader(SDL_GL_GetProcAddress);
+	DANJIN_CORE_ASSERT(status, "Failed to initialize glad!");
+
+	setVSync(true);
 
 }
 
