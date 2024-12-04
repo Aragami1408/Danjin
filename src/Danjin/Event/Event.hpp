@@ -33,9 +33,9 @@ enum EventCategory {
 	virtual i32 getCategoryFlags() const override { return category; }
 
 class DANJIN_API Event {
-	friend class EventDispatcher;
-
 public:
+	bool handled = false;
+
 	virtual EventType getEventType() const = 0;
 	virtual const char *getName() const = 0;
 	virtual i32 getCategoryFlags() const = 0;
@@ -45,8 +45,6 @@ public:
 		return getCategoryFlags() & category;
 	}
 
-protected:
-	bool m_handled = false;
 };
 
 class EventDispatcher {
@@ -58,7 +56,7 @@ public:
 	template<typename T>
 	bool dispatch(EventFn<T> func) {
 		if (m_event.getEventType() == T::getStaticType()) {
-			m_event.m_handled = func(*(T*) &m_event);
+			m_event.handled = func(*(T*) &m_event);
 			return true;
 		}
 		return false;
