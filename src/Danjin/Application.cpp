@@ -20,6 +20,8 @@ void Application::run() {
 	while(m_running) {
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
+		for (Layer *layer : m_layerStack)
+			layer->onUpdate();
 		m_window->onUpdate();
 	}
 }
@@ -27,8 +29,20 @@ void Application::run() {
 void Application::onEvent(Event &e) {
 	EventDispatcher dispatcher(e);
 	dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose));
-	DANJIN_CORE_TRACE("{0}", e.toString());
+
+	for (auto it = m_layerStack.end(); it != m_layerStack.begin();) {
+		(*--it)->onEvent(e);
+		if (e.handled)
+			break;
+	}
 }
+
+void Application::pushLayer(Layer *layer) {
+	m_layerStack.pushLayer(layer);
+}
+
+void Application::pushOverlay(Layer *layer) {
+	m_layerStack.pushOverlay(layer); }
 
 bool Application::onWindowClose(WindowCloseEvent &e) {
 	m_running = false;

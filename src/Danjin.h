@@ -4,6 +4,7 @@
 
 #include <Danjin/Application.hpp>
 #include <Danjin/Window.hpp>
+#include <Danjin/Layer.hpp>
 #include <Danjin/Logger.hpp>
 
 #include <Danjin/Event/ApplicationEvent.hpp>
