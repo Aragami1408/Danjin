@@ -4,15 +4,7 @@ project(Danjin VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(WIN32)
-	add_compile_definitions(DANJIN_PLATFORM_WINDOWS)
-	add_compile_definitions(DANJIN_BUILD_DLL)
-	if (MSVC)
-		set(CMAKE_CXX_FLAGS_DEBUG_INIT "/DDANJIN_ENABLE_ASSERTS")
-	else()
-		set(CMAKE_CXX_FLAGS_DEBUG_INIT "-DDANJIN_ENABLE_ASSERTS")
-	endif(MSVC)
-endif(WIN32)
+add_compile_definitions(DANJIN_EXPORT)
 
 option(BUILD_EXAMPLES "Build examples" OFF)
 

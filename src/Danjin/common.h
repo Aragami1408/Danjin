@@ -14,14 +14,32 @@ typedef uint64_t u64;
 
 typedef size_t usize;
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
+    #define DANJIN_PLATFORM_WINDOWS
+	#ifndef _WIN64
+		#error "64-bit is required on Windows!"
+	#endif
+#elif defined(__linux__) || defined(__gnu_linux__)
+	#define DANJIN_PLATFORM_LINUX
+#elif __APPLE__
+	#define DANJIN_PLATFORM_APPLE
+	#include <TargetConditionals.h>
+#else
+	#error "Unknown platform!"
+#endif
+
 #ifdef DANJIN_PLATFORM_WINDOWS
-	#ifdef DANJIN_BUILD_DLL
+	#ifdef DANJIN_EXPORT
 		#define DANJIN_API __declspec(dllexport)
 	#else
 		#define DANJIN_API __declspec(dllimport)
 	#endif
 #else
-	#error Danjin only support Windows for now
+	#ifdef DANJIN_EXPORT
+		#define DANJIN_API __attribute__((visibility("default")))
+	#else
+		#define DANJIN_API
+	#endif
 #endif
 
 #ifdef DANJIN_ENABLE_ASSERTS

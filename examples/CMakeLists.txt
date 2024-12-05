@@ -1,7 +1,4 @@
-if(WIN32)
-  add_compile_definitions(DANJIN_PLATFORM_WINDOWS)
-  remove_definitions("-DDANJIN_BUILD_DLL")
-endif(WIN32)
+remove_definitions("-DDANJIN_EXPORT")
 
 function(add_example EXAMPLE_NAME)
 	add_executable(${EXAMPLE_NAME} ${ARGN})
