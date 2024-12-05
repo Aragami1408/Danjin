@@ -2,7 +2,3 @@
 	path = submodules/spdlog
 	url = https://github.com/gabime/spdlog
 
-[submodule "submodules/imgui"]
-	path = submodules/imgui
-	url = https://github.com/ocornut/imgui
-	branch = docking
